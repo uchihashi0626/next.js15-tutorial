@@ -5,7 +5,20 @@ import { lusitana } from "@/app/ui/fonts";
 import { fetchRevenue } from "@/app/lib/data";
 
 export default async function Page() {
-  const revenue = await fetchRevenue();
+  let revenue;
+
+  try {
+    revenue = await fetchRevenue();
+  } catch (error) {
+    console.error("Error fetching revenue:", error);
+    // エラーメッセージを表示
+    return (
+      <main>
+        <h1 className="mb-4 text-xl md:text-2xl text-red-600">Error</h1>
+        <p>Failed to load dashboard data. Please try again later.</p>
+      </main>
+    );
+  }
   return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
